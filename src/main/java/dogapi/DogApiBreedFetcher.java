@@ -44,9 +44,7 @@ public class DogApiBreedFetcher implements BreedFetcher {
             String status = root.getString("status");
 
             if (status.equals("error")) {
-                String errorMsg = root.getString("message");
-                subBreeds.add("Breed not found: " + errorMsg);
-                return subBreeds;
+                throw new BreedNotFoundException(breed);
             }
 
             JSONArray arr = root.getJSONArray("message");
@@ -60,10 +58,5 @@ public class DogApiBreedFetcher implements BreedFetcher {
 
         return subBreeds;
     }
-    public static void main(String[] args) {
-        DogApiBreedFetcher api = new DogApiBreedFetcher();
-        System.out.println(api.getSubBreeds("hound"));   // [afghan, basset, blood, english, ibizan, walker]
-        System.out.println(api.getSubBreeds("pug"));     // []
-        System.out.println(api.getSubBreeds("dragon"));
-    }
+
 }
